@@ -3,11 +3,13 @@ import "sanitize.css/forms.css";
 import "sanitize.css/typography.css";
 import "@app/_styles/styles.css";
 
+import { Roboto } from "next/font/google";
 import { FC, ReactNode } from "react";
 import { Metadata } from "next";
 
+import { CloudsBackground } from "@widgets/clouds/ui";
+
 import { generateStaticMetadata } from "@shared/lib/functions";
-import { Roboto } from "next/font/google";
 
 type MainLayoutProps = {
 	children: ReactNode;
@@ -35,7 +37,9 @@ export const metadata: Metadata = generateStaticMetadata({
 export const RootLayout: FC<MainLayoutProps> = ({ children }) => {
 	return (
 		<html lang="en" className={roboto.variable}>
-			<body>{children}</body>
+			<body>
+				<CloudsBackground>{children}</CloudsBackground>
+			</body>
 		</html>
 	);
 };
