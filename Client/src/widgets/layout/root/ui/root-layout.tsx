@@ -7,6 +7,7 @@ import { Roboto } from "next/font/google";
 import { FC, ReactNode } from "react";
 import { Metadata } from "next";
 
+import { Footer } from "@widgets/footer/ui";
 import { CloudsBackground } from "@widgets/clouds/ui";
 
 import { generateStaticMetadata } from "@shared/lib/functions";
@@ -38,7 +39,10 @@ export const RootLayout: FC<MainLayoutProps> = ({ children }) => {
 	return (
 		<html lang="en" className={roboto.variable}>
 			<body>
-				<CloudsBackground>{children}</CloudsBackground>
+				<CloudsBackground>
+					{children}
+					<Footer />
+				</CloudsBackground>
 			</body>
 		</html>
 	);
