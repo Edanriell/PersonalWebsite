@@ -39,7 +39,7 @@ export const CloudsBackground: FC<CloudsBackgroundProps> = ({ children }) => {
 	}, [theme]);
 
 	return (
-		<div ref={containerRef} className="w-full h-[100vh]">
+		<div ref={containerRef} className="w-full h-[100%] relative z-10">
 			{children}
 		</div>
 	);
