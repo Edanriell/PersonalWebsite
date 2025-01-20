@@ -23,7 +23,7 @@ const iconVariants = {
 	)
 };
 
-type IconType = keyof typeof iconVariants;
+export type IconType = keyof typeof iconVariants;
 
 type IconProps = {
 	type: IconType;
