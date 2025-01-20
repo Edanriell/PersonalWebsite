@@ -1,25 +1,23 @@
 "use client";
 
 import { AnimatePresence, motion } from "motion/react";
-import { type FC, type ReactNode, useEffect, useRef, useState } from "react";
+import { type FC, type ReactNode, type RefObject, useEffect, useRef, useState } from "react";
 import { useOnClickOutside } from "usehooks-ts";
 
 import { Spinner } from "../spinner";
-
-import "./button.css";
 
 type ButtonProps = {
 	children: ReactNode;
 };
 
 export const Button: FC<ButtonProps> = ({ children }) => {
-	const [open, setOpen] = useState(false);
-	const [formState, setFormState] = useState("idle");
-	const [feedback, setFeedback] = useState("");
+	const [open, setOpen] = useState<boolean>(false);
+	const [formState, setFormState] = useState<"idle" | "loading" | "success">("idle");
+	const [feedback, setFeedback] = useState<string | "">("");
 
-	const ref = useRef(null);
+	const ref = useRef<HTMLDivElement | null>(null);
 
-	useOnClickOutside(ref, () => setOpen(false));
+	useOnClickOutside(ref as RefObject<HTMLElement>, () => setOpen(false));
 
 	function submit() {
 		setFormState("loading");
@@ -33,7 +31,7 @@ export const Button: FC<ButtonProps> = ({ children }) => {
 	}
 
 	useEffect(() => {
-		const handleKeyDown = (event) => {
+		const handleKeyDown = (event: KeyboardEvent) => {
 			if (event.key === "Escape") {
 				setOpen(false);
 			}
@@ -53,7 +51,7 @@ export const Button: FC<ButtonProps> = ({ children }) => {
 	}, [open, formState]);
 
 	return (
-		<div className="feedback-wrapper">
+		<div className="flex justify-center items-start">
 			<motion.button
 				layoutId="wrapper"
 				onClick={() => {
@@ -62,28 +60,21 @@ export const Button: FC<ButtonProps> = ({ children }) => {
 					setFeedback("");
 				}}
 				key="button"
-				className="feedback-button"
+				className="relative flex h-[36rem] items-center rounded-[8rem] border-[1rem] border-solid border-[#e9e9e7] bg-[white] py-0 px-[12rem] font-medium outline-none shadow-lg"
 				style={{ borderRadius: 8 }}
 			>
-				<motion.span layoutId="title">{children}</motion.span>
+				<motion.span className="block text-[14rem]" layout>
+					{children}
+				</motion.span>
 			</motion.button>
 			<AnimatePresence>
 				{open ? (
 					<motion.div
 						layoutId="wrapper"
-						className="feedback-popover"
+						className="absolute h-[232rem] w-[364rem] overflow-hidden rounded-[12rem] bg-[#f5f6f7] p-[6rem] outline-none"
 						ref={ref}
 						style={{ borderRadius: 12 }}
 					>
-						<motion.span
-							aria-hidden
-							className="placeholder"
-							layoutId="title"
-							data-success={formState === "success" ? "true" : "false"}
-							data-feedback={feedback ? "true" : "false"}
-						>
-							Feedback
-						</motion.span>
 						<AnimatePresence mode="popLayout">
 							{formState === "success" ? (
 								<motion.div
@@ -91,9 +82,10 @@ export const Button: FC<ButtonProps> = ({ children }) => {
 									initial={{ y: -32, opacity: 0, filter: "blur(4px)" }}
 									animate={{ y: 0, opacity: 1, filter: "blur(0px)" }}
 									transition={{ type: "spring", duration: 0.4, bounce: 0 }}
-									className="success-wrapper"
+									className="flex h-full flex-col items-center justify-center"
 								>
 									<svg
+										className="mt-[-4rem]"
 										width="32"
 										height="32"
 										viewBox="0 0 32 32"
@@ -113,8 +105,12 @@ export const Button: FC<ButtonProps> = ({ children }) => {
 											strokeLinejoin="round"
 										/>
 									</svg>
-									<h3>Feedback received!</h3>
-									<p>Thanks for helping me improve Sonner.</p>
+									<h3 className="mb-[4rem] mt-[8rem] text-[14rem] font-medium text-[#21201c]">
+										Message received !
+									</h3>
+									<p className="text-[14rem] text-[#63635d]">
+										Thank you for reaching out !
+									</p>
 								</motion.div>
 							) : (
 								<motion.form
@@ -126,85 +122,50 @@ export const Button: FC<ButtonProps> = ({ children }) => {
 										if (!feedback) return;
 										submit();
 									}}
-									className="feedback-form"
+									className="rounded-[8rem]"
 								>
-									<textarea
-										autoFocus
-										placeholder="Feedback"
-										onChange={(e) => setFeedback(e.target.value)}
-										className="textarea"
-										required
-									/>
-									<div className="feedback-footer">
-										<svg
-											className="dotted-line"
-											width="352"
-											height="2"
-											viewBox="0 0 352 2"
-											fill="none"
-											xmlns="http://www.w3.org/2000/svg"
+									<div>
+										<label className="visually-hidden" htmlFor="name">
+											Your name
+										</label>
+										<input
+											id="name"
+											name="name"
+											className="mb-[5rem] border-[1rem] border-solid border-[#e6e7e8] bg-[white] w-full h-[42rem] rounded-[8rem] p-[12rem] text-[14rem] outline-none"
+											type="text"
+											placeholder="Name"
+										/>
+									</div>
+									<div>
+										<label className="visually-hidden" htmlFor="email">
+											Your email address
+										</label>
+										<input
+											id="email"
+											name="email"
+											className="mb-[5rem] border-[1rem] border-solid border-[#e6e7e8] bg-[white] w-full h-[42rem] rounded-[8rem] p-[12rem] text-[14rem] outline-none"
+											type="email"
+											placeholder="Email"
+										/>
+									</div>
+									<div>
+										<label className="visually-hidden" htmlFor="message">
+											Your message
+										</label>
+										<textarea
+											id="message"
+											name="message"
+											placeholder="Message"
+											onChange={(e) => setFeedback(e.target.value)}
+											className="border-[1rem] border-solid border-[#e6e7e8] bg-[white] w-full h-[126rem] resize-none rounded-[8rem] p-[12rem] text-[14rem] outline-none"
+											required
+										/>
+									</div>
+									<div className="absolute bottom-[12rem] right-[12rem]">
+										<button
+											type="submit"
+											className="bg-button-gradient ml-auto flex items-center justify-center rounded-[6rem] font-bold text-[12rem] h-[24rem] w-[104rem] overflow-hidden shadow-lg relative"
 										>
-											<path
-												d="M0 1H352"
-												stroke="#E6E7E8"
-												strokeDasharray="4 4"
-											/>
-										</svg>
-										<div className="half-circle-left">
-											<svg
-												width="6"
-												height="12"
-												viewBox="0 0 6 12"
-												fill="none"
-												xmlns="http://www.w3.org/2000/svg"
-											>
-												<g clipPath="url(#clip0_2029_22)">
-													<path
-														d="M0 2C0.656613 2 1.30679 2.10346 1.91341 2.30448C2.52005 2.5055 3.07124 2.80014 3.53554 3.17157C3.99982 3.54301 4.36812 3.98396 4.6194 4.46927C4.87067 4.95457 5 5.47471 5 6C5 6.52529 4.87067 7.04543 4.6194 7.53073C4.36812 8.01604 3.99982 8.45699 3.53554 8.82843C3.07124 9.19986 2.52005 9.4945 1.91341 9.69552C1.30679 9.89654 0.656613 10 0 10V6V2Z"
-														fill="#F5F6F7"
-													/>
-													<path
-														d="M1 12V10C2.06087 10 3.07828 9.57857 3.82843 8.82843C4.57857 8.07828 5 7.06087 5 6C5 4.93913 4.57857 3.92172 3.82843 3.17157C3.07828 2.42143 2.06087 2 1 2V0"
-														stroke="#E6E7E8"
-														strokeWidth="1"
-														strokeLinejoin="round"
-													/>
-												</g>
-												<defs>
-													<clipPath id="clip0_2029_22">
-														<rect width="6" height="12" fill="white" />
-													</clipPath>
-												</defs>
-											</svg>
-										</div>
-										<div className="half-circle-right">
-											<svg
-												width="6"
-												height="12"
-												viewBox="0 0 6 12"
-												fill="none"
-												xmlns="http://www.w3.org/2000/svg"
-											>
-												<g clipPath="url(#clip0_2029_22)">
-													<path
-														d="M0 2C0.656613 2 1.30679 2.10346 1.91341 2.30448C2.52005 2.5055 3.07124 2.80014 3.53554 3.17157C3.99982 3.54301 4.36812 3.98396 4.6194 4.46927C4.87067 4.95457 5 5.47471 5 6C5 6.52529 4.87067 7.04543 4.6194 7.53073C4.36812 8.01604 3.99982 8.45699 3.53554 8.82843C3.07124 9.19986 2.52005 9.4945 1.91341 9.69552C1.30679 9.89654 0.656613 10 0 10V6V2Z"
-														fill="#F5F6F7"
-													/>
-													<path
-														d="M1 12V10C2.06087 10 3.07828 9.57857 3.82843 8.82843C4.57857 8.07828 5 7.06087 5 6C5 4.93913 4.57857 3.92172 3.82843 3.17157C3.07828 2.42143 2.06087 2 1 2V0"
-														stroke="#E6E7E8"
-														strokeWidth="1"
-														strokeLinejoin="round"
-													/>
-												</g>
-												<defs>
-													<clipPath id="clip0_2029_22">
-														<rect width="6" height="12" fill="white" />
-													</clipPath>
-												</defs>
-											</svg>
-										</div>
-										<button type="submit" className="submit-button">
 											<AnimatePresence mode="popLayout" initial={false}>
 												<motion.span
 													transition={{
@@ -223,7 +184,9 @@ export const Button: FC<ButtonProps> = ({ children }) => {
 															color="rgba(255, 255, 255, 0.65)"
 														/>
 													) : (
-														<span>Send feedback</span>
+														<span className="drop-shadow-lg flex w-full justify-center items-start text-[white]">
+															Send message
+														</span>
 													)}
 												</motion.span>
 											</AnimatePresence>
