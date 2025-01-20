@@ -1,12 +1,18 @@
 "use client";
 
 import { AnimatePresence, motion } from "motion/react";
-import { useEffect, useRef, useState } from "react";
+import { type FC, type ReactNode, useEffect, useRef, useState } from "react";
 import { useOnClickOutside } from "usehooks-ts";
 
-import { Spinner } from "../components/spinner";
+import { Spinner } from "../spinner";
 
-export default function Home() {
+import "./button.css";
+
+type ButtonProps = {
+	children: ReactNode;
+};
+
+export const Button: FC<ButtonProps> = ({ children }) => {
 	const [open, setOpen] = useState(false);
 	const [formState, setFormState] = useState("idle");
 	const [feedback, setFeedback] = useState("");
@@ -59,7 +65,7 @@ export default function Home() {
 				className="feedback-button"
 				style={{ borderRadius: 8 }}
 			>
-				<motion.span layoutId="title">Feedback</motion.span>
+				<motion.span layoutId="title">{children}</motion.span>
 			</motion.button>
 			<AnimatePresence>
 				{open ? (
@@ -231,4 +237,4 @@ export default function Home() {
 			</AnimatePresence>
 		</div>
 	);
-}
+};
