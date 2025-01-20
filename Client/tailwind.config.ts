@@ -11,6 +11,9 @@ export default {
 	],
 	theme: {
 		extend: {
+			backgroundImage: {
+				"button-gradient": "linear-gradient(180deg, #1994ff 0%, #157cff 100%)"
+			},
 			colors: {
 				background: "var(--background)",
 				foreground: "var(--foreground)"
