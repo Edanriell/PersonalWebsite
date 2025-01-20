@@ -39,10 +39,8 @@ export const RootLayout: FC<MainLayoutProps> = ({ children }) => {
 	return (
 		<html lang="en" className={roboto.variable}>
 			<body>
-				<CloudsBackground>
-					{children}
-					<Footer />
-				</CloudsBackground>
+				<CloudsBackground>{children}</CloudsBackground>
+				<Footer />
 			</body>
 		</html>
 	);
