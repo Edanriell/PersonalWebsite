@@ -1,5 +1,7 @@
 import { type FC } from "react";
 
+import { Button } from "@shared/ui/button";
+
 export const HomePage: FC = () => {
 	return (
 		<main className="relative">
@@ -8,7 +10,7 @@ export const HomePage: FC = () => {
 					Edanriell
 					<span className="sr-only">Front-End Engineer and Tech Enthusiast</span>
 				</h1>
-				<button type="button">Send message</button>
+				<Button>Send message</Button>
 			</section>
 		</main>
 	);
