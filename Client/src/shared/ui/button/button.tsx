@@ -63,7 +63,7 @@ export const Button: FC<ButtonProps> = ({ children }) => {
 				className="relative flex h-[36rem] items-center rounded-[8rem] border-[1rem] border-solid border-[#e9e9e7] bg-[white] py-0 px-[12rem] font-medium outline-none shadow-lg"
 				style={{ borderRadius: 8 }}
 			>
-				<motion.span className="block text-[14rem]" layout>
+				<motion.span className="block text-[14rem] drop-shadow-lg" layout>
 					{children}
 				</motion.span>
 			</motion.button>
