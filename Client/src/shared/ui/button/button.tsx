@@ -4,7 +4,7 @@ import { AnimatePresence, motion } from "motion/react";
 import { type FC, type ReactNode, type RefObject, useEffect, useRef, useState } from "react";
 import { useOnClickOutside } from "usehooks-ts";
 
-import { Spinner } from "../spinner";
+import { Spinner } from "@shared/ui/spinner";
 
 type ButtonProps = {
 	children: ReactNode;
@@ -12,7 +12,7 @@ type ButtonProps = {
 
 export const Button: FC<ButtonProps> = ({ children }) => {
 	const [open, setOpen] = useState<boolean>(false);
-	const [formState, setFormState] = useState<"idle" | "loading" | "success">("idle");
+	const [formState, setFormState] = useState<"idle" | "loading" | "success" | "failure">("idle");
 	const [feedback, setFeedback] = useState<string | "">("");
 
 	const ref = useRef<HTMLDivElement | null>(null);
@@ -21,8 +21,9 @@ export const Button: FC<ButtonProps> = ({ children }) => {
 
 	function submit() {
 		setFormState("loading");
+
 		setTimeout(() => {
-			setFormState("success");
+			setFormState("failure");
 		}, 1500);
 
 		setTimeout(() => {
@@ -76,7 +77,7 @@ export const Button: FC<ButtonProps> = ({ children }) => {
 						style={{ borderRadius: 12 }}
 					>
 						<AnimatePresence mode="popLayout">
-							{formState === "success" ? (
+							{formState === "success" && (
 								<motion.div
 									key="success"
 									initial={{ y: -32, opacity: 0, filter: "blur(4px)" }}
@@ -88,21 +89,17 @@ export const Button: FC<ButtonProps> = ({ children }) => {
 										className="mt-[-4rem]"
 										width="32"
 										height="32"
-										viewBox="0 0 32 32"
-										fill="none"
 										xmlns="http://www.w3.org/2000/svg"
+										viewBox="0 0 512 512"
 									>
 										<path
-											d="M27.6 16C27.6 17.5234 27.3 19.0318 26.717 20.4392C26.1341 21.8465 25.2796 23.1253 24.2025 24.2025C23.1253 25.2796 21.8465 26.1341 20.4392 26.717C19.0318 27.3 17.5234 27.6 16 27.6C14.4767 27.6 12.9683 27.3 11.5609 26.717C10.1535 26.1341 8.87475 25.2796 7.79759 24.2025C6.72043 23.1253 5.86598 21.8465 5.28302 20.4392C4.70007 19.0318 4.40002 17.5234 4.40002 16C4.40002 12.9235 5.62216 9.97301 7.79759 7.79759C9.97301 5.62216 12.9235 4.40002 16 4.40002C19.0765 4.40002 22.027 5.62216 24.2025 7.79759C26.3779 9.97301 27.6 12.9235 27.6 16Z"
-											fill="#2090FF"
 											fillOpacity="0.16"
+											fill="#2090FF"
+											d="M48 256a208 208 0 1 0 416 0A208 208 0 1 0 48 256zm95-17c9.4-9.4 24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9z"
 										/>
 										<path
-											d="M12.1334 16.9667L15.0334 19.8667L19.8667 13.1M27.6 16C27.6 17.5234 27.3 19.0318 26.717 20.4392C26.1341 21.8465 25.2796 23.1253 24.2025 24.2025C23.1253 25.2796 21.8465 26.1341 20.4392 26.717C19.0318 27.3 17.5234 27.6 16 27.6C14.4767 27.6 12.9683 27.3 11.5609 26.717C10.1535 26.1341 8.87475 25.2796 7.79759 24.2025C6.72043 23.1253 5.86598 21.8465 5.28302 20.4392C4.70007 19.0318 4.40002 17.5234 4.40002 16C4.40002 12.9235 5.62216 9.97301 7.79759 7.79759C9.97301 5.62216 12.9235 4.40002 16 4.40002C19.0765 4.40002 22.027 5.62216 24.2025 7.79759C26.3779 9.97301 27.6 12.9235 27.6 16Z"
-											stroke="#2090FF"
-											strokeWidth="2.4"
-											strokeLinecap="round"
-											strokeLinejoin="round"
+											fill="#2090FF"
+											d="M256 48a208 208 0 1 1 0 416 208 208 0 1 1 0-416zm0 464A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209c9.4-9.4 9.4-24.6 0-33.9s-24.6-9.4-33.9 0l-111 111-47-47c-9.4-9.4-24.6-9.4-33.9 0s-9.4 24.6 0 33.9l64 64c9.4 9.4 24.6 9.4 33.9 0L369 209z"
 										/>
 									</svg>
 									<h3 className="mb-[4rem] mt-[8rem] text-[14rem] font-medium text-[#21201c]">
@@ -112,7 +109,44 @@ export const Button: FC<ButtonProps> = ({ children }) => {
 										Thank you for reaching out !
 									</p>
 								</motion.div>
-							) : (
+							)}
+							{formState === "failure" && (
+								<motion.div
+									key="failure"
+									initial={{ y: -32, opacity: 0, filter: "blur(4px)" }}
+									animate={{ y: 0, opacity: 1, filter: "blur(0px)" }}
+									transition={{ type: "spring", duration: 0.4, bounce: 0 }}
+									className="flex h-full flex-col items-center justify-center"
+								>
+									<svg
+										className="mt-[-4rem]"
+										width="32"
+										height="32"
+										xmlns="http://www.w3.org/2000/svg"
+										viewBox="0 0 512 512"
+									>
+										<path
+											fillOpacity="0.16"
+											fill="#2090FF"
+											d="M48 256a208 208 0 1 0 416 0A208 208 0 1 0 48 256zm240 96a32 32 0 1 1 -64 0 32 32 0 1 1 64 0zM232 152c0-13.3 10.7-24 24-24s24 10.7 24 24l0 112c0 13.3-10.7 24-24 24s-24-10.7-24-24l0-112z"
+										/>
+										<path
+											fill="#2090FF"
+											d="M256 48a208 208 0 1 1 0 416 208 208 0 1 1 0-416zm0 464A256 256 0 1 0 256 0a256 256 0 1 0 0 512zm0-384c-13.3 0-24 10.7-24 24l0 112c0 13.3 10.7 24 24 24s24-10.7 24-24l0-112c0-13.3-10.7-24-24-24zm32 224a32 32 0 1 0 -64 0 32 32 0 1 0 64 0z"
+										/>
+									</svg>
+									<h3 className="mb-[4rem] mt-[8rem] text-[14rem] font-medium text-[#21201c]">
+										I&#39;m Sorry!
+									</h3>
+									<p className="text-[14rem] text-[#63635d] text-center">
+										Looks like something didn’t go as planned.
+									</p>
+									<p className="text-[14rem] text-[#63635d] text-center">
+										Please try again in a moment.
+									</p>
+								</motion.div>
+							)}
+							{(formState === "idle" || formState === "loading") && (
 								<motion.form
 									exit={{ y: 8, opacity: 0, filter: "blur(4px)" }}
 									transition={{ type: "spring", duration: 0.4, bounce: 0 }}
