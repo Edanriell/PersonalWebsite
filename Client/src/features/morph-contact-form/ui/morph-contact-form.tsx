@@ -58,8 +58,8 @@ export const MorphContactForm: FC<MorphContactForm> = ({ Trigger }) => {
 	const renderSuccessSection = () => (
 		<motion.section
 			key="success"
-			initial={{ y: -32, opacity: 0, filter: "blur(4px)" }}
-			animate={{ y: 0, opacity: 1, filter: "blur(0px)" }}
+			initial={{ y: -32, opacity: 0, filter: "blur(4rem)" }}
+			animate={{ y: 0, opacity: 1, filter: "blur(0rem)" }}
 			transition={{ type: "spring", duration: 0.4, bounce: 0 }}
 			className="flex h-full flex-col items-center justify-center"
 		>
@@ -90,8 +90,8 @@ export const MorphContactForm: FC<MorphContactForm> = ({ Trigger }) => {
 	const renderFailureSection = () => (
 		<motion.div
 			key="failure"
-			initial={{ y: -32, opacity: 0, filter: "blur(4px)" }}
-			animate={{ y: 0, opacity: 1, filter: "blur(0px)" }}
+			initial={{ y: -32, opacity: 0, filter: "blur(4rem)" }}
+			animate={{ y: 0, opacity: 1, filter: "blur(0rem)" }}
 			transition={{ type: "spring", duration: 0.4, bounce: 0 }}
 			className="flex h-full flex-col items-center justify-center"
 		>
@@ -153,7 +153,7 @@ export const MorphContactForm: FC<MorphContactForm> = ({ Trigger }) => {
 
 	const renderContactForm = () => (
 		<motion.form
-			exit={{ y: 8, opacity: 0, filter: "blur(4px)" }}
+			exit={{ y: 8, opacity: 0, filter: "blur(4rem)" }}
 			transition={{ type: "spring", duration: 0.4, bounce: 0 }}
 			key="form"
 			onSubmit={(e) => {
