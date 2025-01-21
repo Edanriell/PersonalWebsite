@@ -1,4 +1,4 @@
-import { type FC } from "react";
+import { type CSSProperties, type FC } from "react";
 
 import styles from "./spinner.module.css";
 
@@ -9,14 +9,21 @@ type SpinnerProps = {
 	size?: number;
 };
 
+type SpinnerStyle = {
+	"--spinner-size"?: string;
+	"--spinner-color"?: string;
+} & CSSProperties;
+
 export const Spinner: FC<SpinnerProps> = ({ color = "", size = 20 }) => {
 	return (
 		<div
 			className={styles["spinner__wrapper"]}
-			style={{
-				["--spinner-size"]: `${size}px`,
-				["--spinner-color"]: color
-			}}
+			style={
+				{
+					["--spinner-size"]: `${size}px`,
+					["--spinner-color"]: color
+				} as SpinnerStyle
+			}
 		>
 			<div className={styles["spinner"]}>
 				{bars.map((_, i) => (
