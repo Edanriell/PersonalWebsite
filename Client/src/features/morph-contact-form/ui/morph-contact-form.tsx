@@ -217,7 +217,7 @@ export const MorphContactForm: FC<MorphContactForm> = ({ Trigger }) => {
 				}}
 				key="button"
 			>
-				<motion.span className="block text-[14rem] drop-shadow-lg" layout>
+				<motion.span className="block text-[14rem] drop-shadow-lg" layoutId="text">
 					Send message
 				</motion.span>
 			</Trigger>
@@ -229,6 +229,13 @@ export const MorphContactForm: FC<MorphContactForm> = ({ Trigger }) => {
 						ref={contactFormContainerRef}
 						style={{ borderRadius: 12 }}
 					>
+						<motion.span
+							className="absolute top-[7%] left-[37.4%] text-[14rem] drop-shadow-lg pointer-events-none"
+							style={{ opacity: 0 }}
+							layoutId="text"
+						>
+							Send message
+						</motion.span>
 						<AnimatePresence mode="popLayout">
 							{contactFormState === "success" && renderSuccessSection()}
 							{contactFormState === "failure" && renderFailureSection()}
