@@ -58,8 +58,8 @@ export const MorphContactForm: FC<MorphContactForm> = ({ Trigger }) => {
 	const renderSuccessSection = () => (
 		<motion.section
 			key="success"
-			initial={{ y: -32, opacity: 0, filter: "blur(4px)" }}
-			animate={{ y: 0, opacity: 1, filter: "blur(0px)" }}
+			initial={{ y: -32, opacity: 0, filter: "blur(4rem)" }}
+			animate={{ y: 0, opacity: 1, filter: "blur(0rem)" }}
 			transition={{ type: "spring", duration: 0.4, bounce: 0 }}
 			className="flex h-full flex-col items-center justify-center"
 		>
@@ -90,8 +90,8 @@ export const MorphContactForm: FC<MorphContactForm> = ({ Trigger }) => {
 	const renderFailureSection = () => (
 		<motion.div
 			key="failure"
-			initial={{ y: -32, opacity: 0, filter: "blur(4px)" }}
-			animate={{ y: 0, opacity: 1, filter: "blur(0px)" }}
+			initial={{ y: -32, opacity: 0, filter: "blur(4rem)" }}
+			animate={{ y: 0, opacity: 1, filter: "blur(0rem)" }}
 			transition={{ type: "spring", duration: 0.4, bounce: 0 }}
 			className="flex h-full flex-col items-center justify-center"
 		>
@@ -104,11 +104,11 @@ export const MorphContactForm: FC<MorphContactForm> = ({ Trigger }) => {
 			>
 				<path
 					fillOpacity="0.16"
-					fill="#2090FF"
+					fill="#FF3D00"
 					d="M48 256a208 208 0 1 0 416 0A208 208 0 1 0 48 256zm240 96a32 32 0 1 1 -64 0 32 32 0 1 1 64 0zM232 152c0-13.3 10.7-24 24-24s24 10.7 24 24l0 112c0 13.3-10.7 24-24 24s-24-10.7-24-24l0-112z"
 				/>
 				<path
-					fill="#2090FF"
+					fill="#FF3D00"
 					d="M256 48a208 208 0 1 1 0 416 208 208 0 1 1 0-416zm0 464A256 256 0 1 0 256 0a256 256 0 1 0 0 512zm0-384c-13.3 0-24 10.7-24 24l0 112c0 13.3 10.7 24 24 24s24-10.7 24-24l0-112c0-13.3-10.7-24-24-24zm32 224a32 32 0 1 0 -64 0 32 32 0 1 0 64 0z"
 				/>
 			</svg>
@@ -153,7 +153,7 @@ export const MorphContactForm: FC<MorphContactForm> = ({ Trigger }) => {
 
 	const renderContactForm = () => (
 		<motion.form
-			exit={{ y: 8, opacity: 0, filter: "blur(4px)" }}
+			exit={{ y: 8, opacity: 0, filter: "blur(4rem)" }}
 			transition={{ type: "spring", duration: 0.4, bounce: 0 }}
 			key="form"
 			onSubmit={(e) => {
@@ -217,7 +217,7 @@ export const MorphContactForm: FC<MorphContactForm> = ({ Trigger }) => {
 				}}
 				key="button"
 			>
-				<motion.span className="block text-[14rem] drop-shadow-lg" layout>
+				<motion.span className="block text-[14rem] drop-shadow-lg" layoutId="text">
 					Send message
 				</motion.span>
 			</Trigger>
@@ -229,6 +229,13 @@ export const MorphContactForm: FC<MorphContactForm> = ({ Trigger }) => {
 						ref={contactFormContainerRef}
 						style={{ borderRadius: 12 }}
 					>
+						<motion.span
+							className="absolute top-[7%] left-[37.4%] text-[14rem] drop-shadow-lg pointer-events-none"
+							style={{ opacity: 0 }}
+							layoutId="text"
+						>
+							Send message
+						</motion.span>
 						<AnimatePresence mode="popLayout">
 							{contactFormState === "success" && renderSuccessSection()}
 							{contactFormState === "failure" && renderFailureSection()}
