@@ -1,9 +1,17 @@
 "use client";
 
-import { type FC } from "react";
-import { AnimatePresence, motion } from "motion/react";
+import { type ComponentPropsWithoutRef, type FC, useState } from "react";
+import { AnimatePresence, motion, type MotionProps } from "motion/react";
 
-export const MorphTitle: FC = ({ children }: { children: string | string[] }) => {
+type MorphTitleProps = {
+	to: string;
+	children: string;
+} & MotionProps &
+	ComponentPropsWithoutRef<"h1">;
+
+export const MorphTitle: FC<MorphTitleProps> = ({ to, children, ...rest }) => {
+	const [title, setTitle] = useState<string>(children);
+
 	const generateKeys = (text: string) => {
 		const charCount: { [key: string]: number } = {};
 
@@ -19,32 +27,36 @@ export const MorphTitle: FC = ({ children }: { children: string | string[] }) =>
 		});
 	};
 
-	const textToDisplay = generateKeys(children as string);
+	const textToDisplay = generateKeys(title);
 
 	return (
 		<AnimatePresence mode="popLayout" initial={false}>
-			{textToDisplay.map(({ char, key }) => (
-				<motion.span
-					key={key}
-					layoutId={key}
-					className="inline-block text-inherit"
-					initial={{ opacity: 0 }}
-					animate={{ opacity: 1 }}
-					exit={{ opacity: 0 }}
-					transition={{
-						duration: 0.25,
-						type: "spring",
-						bounce: 0,
-						opacity: {
-							duration: 0.35,
+			<motion.h1
+				onMouseEnter={() => setTitle(to)}
+				onMouseLeave={() => setTitle(children)}
+				onTap={() => setTitle(title === to ? children : to)}
+				className="font-bold text-[52rem] md:text-[56rem] drop-shadow-lg text-slate-50 flex flex-row"
+				{...rest}
+			>
+				{textToDisplay.map(({ char, key }, index) => (
+					<motion.span
+						key={key}
+						layoutId={key}
+						className="pointer-events-none"
+						initial={{ y: index % 2 === 0 ? 20 : -20, opacity: 0 }}
+						animate={{ y: 0, opacity: 1 }}
+						exit={{ y: index % 2 === 0 ? -20 : 20, opacity: 0 }}
+						transition={{
+							duration: 0.5,
 							type: "spring",
 							bounce: 0
-						}
-					}}
-				>
-					{char === " " ? "\u00A0" : char}
-				</motion.span>
-			))}
+						}}
+					>
+						{char === " " ? "\u00A0" : char}
+					</motion.span>
+				))}
+				<span className="sr-only">Front-End Engineer and Tech Enthusiast</span>
+			</motion.h1>
 		</AnimatePresence>
 	);
 };

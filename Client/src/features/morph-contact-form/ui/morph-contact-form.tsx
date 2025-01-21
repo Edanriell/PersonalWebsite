@@ -41,7 +41,7 @@ export const MorphContactForm: FC<MorphContactForm> = ({ Trigger }) => {
 
 		window.addEventListener("keydown", handleKeyDown);
 		return () => window.removeEventListener("keydown", handleKeyDown);
-	}, [open, contactFormState]);
+	}, [openContactForm, contactFormState]);
 
 	const handleContactFormSubmit = () => {
 		setContactFormState("loading");
