@@ -123,7 +123,10 @@ export const MorphContactForm: FC<MorphContactForm> = ({ Trigger }) => {
 	);
 
 	const renderContactFormSubmitButton = () => (
-		<button
+		<motion.button
+			initial={{ opacity: 0, x: -10 }}
+			animate={{ opacity: 1, x: 0 }}
+			transition={{ delay: 0.65, type: "spring", duration: 0.4, bounce: 0 }}
 			type="submit"
 			className="bg-button-gradient ml-auto flex items-center justify-center rounded-[6rem] font-bold text-[12rem] h-[24rem] w-[104rem] overflow-hidden shadow-lg relative"
 		>
@@ -148,7 +151,7 @@ export const MorphContactForm: FC<MorphContactForm> = ({ Trigger }) => {
 					)}
 				</motion.span>
 			</AnimatePresence>
-		</button>
+		</motion.button>
 	);
 
 	const renderContactForm = () => (
@@ -163,7 +166,11 @@ export const MorphContactForm: FC<MorphContactForm> = ({ Trigger }) => {
 			}}
 			className="rounded-[8rem]"
 		>
-			<div>
+			<motion.div
+				initial={{ opacity: 0, y: -5, scale: 0.8 }}
+				animate={{ opacity: 1, y: 0, scale: 1 }}
+				transition={{ delay: 0.25, type: "spring", duration: 0.4, bounce: 0 }}
+			>
 				<label className="visually-hidden" htmlFor="name">
 					Your name
 				</label>
@@ -174,8 +181,12 @@ export const MorphContactForm: FC<MorphContactForm> = ({ Trigger }) => {
 					type="text"
 					placeholder="Name"
 				/>
-			</div>
-			<div>
+			</motion.div>
+			<motion.div
+				initial={{ opacity: 0, y: -5, scale: 0.8 }}
+				animate={{ opacity: 1, y: 0, scale: 1 }}
+				transition={{ delay: 0.3, type: "spring", duration: 0.4, bounce: 0 }}
+			>
 				<label className="visually-hidden" htmlFor="email">
 					Your email address
 				</label>
@@ -186,8 +197,12 @@ export const MorphContactForm: FC<MorphContactForm> = ({ Trigger }) => {
 					type="email"
 					placeholder="Email"
 				/>
-			</div>
-			<div>
+			</motion.div>
+			<motion.div
+				initial={{ opacity: 0, y: -5, scale: 0.8 }}
+				animate={{ opacity: 1, y: 0, scale: 1 }}
+				transition={{ delay: 0.35, type: "spring", duration: 0.4, bounce: 0 }}
+			>
 				<label className="visually-hidden" htmlFor="message">
 					Your message
 				</label>
@@ -199,7 +214,7 @@ export const MorphContactForm: FC<MorphContactForm> = ({ Trigger }) => {
 					className="border-[1rem] border-solid border-[#e6e7e8] bg-[white] w-full h-[126rem] resize-none rounded-[8rem] p-[12rem] text-[14rem] outline-none"
 					required
 				/>
-			</div>
+			</motion.div>
 			<div className="absolute bottom-[12rem] right-[12rem]">
 				{renderContactFormSubmitButton()}
 			</div>
