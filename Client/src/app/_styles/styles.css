@@ -15,7 +15,7 @@ body {
 	position: relative;
 	font-size: 16em;
 	text-rendering: geometricPrecision;
-	min-width: 390rem;
+	min-width: 375rem;
 }
 
 .visually-hidden {
