@@ -23,7 +23,8 @@ export const MorphContactForm: FC<MorphContactForm> = ({ Trigger }) => {
 	const {
 		register,
 		handleSubmit,
-		formState: { errors }
+		formState: { errors },
+		reset
 	} = useForm({
 		resolver: yupResolver(contactFormSchema)
 	});
@@ -46,8 +47,7 @@ export const MorphContactForm: FC<MorphContactForm> = ({ Trigger }) => {
 				openContactForm &&
 				contactFormState === "idle"
 			) {
-				console.log("ctr");
-				(() => handleSubmit(handleContactFormSubmit))();
+				handleSubmit(handleContactFormSubmit)();
 			}
 		};
 
@@ -62,6 +62,7 @@ export const MorphContactForm: FC<MorphContactForm> = ({ Trigger }) => {
 
 		setTimeout(() => {
 			setContactFormState("failure");
+			reset();
 		}, 1500);
 
 		setTimeout(() => {

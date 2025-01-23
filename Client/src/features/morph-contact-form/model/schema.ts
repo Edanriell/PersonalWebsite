@@ -4,6 +4,6 @@ export const contactFormSchema = yup
 	.object({
 		name: yup.string().required(),
 		email: yup.string().email().required(),
-		message: yup.string().min(24).max(256).required()
+		message: yup.string().min(12).max(148).required()
 	})
 	.required();
