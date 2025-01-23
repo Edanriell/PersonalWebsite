@@ -3,8 +3,12 @@
 import { type ElementType, type FC, type RefObject, useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { useOnClickOutside } from "usehooks-ts";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 import { Spinner } from "@shared/ui/spinner";
+
+import { contactFormSchema } from "../model";
 
 type MorphContactForm = {
 	Trigger: ElementType;
@@ -15,7 +19,14 @@ export const MorphContactForm: FC<MorphContactForm> = ({ Trigger }) => {
 	const [contactFormState, setContactFormState] = useState<
 		"idle" | "loading" | "success" | "failure"
 	>("idle");
-	const [feedback, setFeedback] = useState<string | "">("");
+
+	const {
+		register,
+		handleSubmit,
+		formState: { errors }
+	} = useForm({
+		resolver: yupResolver(contactFormSchema)
+	});
 
 	const contactFormContainerRef = useRef<HTMLDivElement | null>(null);
 
@@ -35,7 +46,8 @@ export const MorphContactForm: FC<MorphContactForm> = ({ Trigger }) => {
 				openContactForm &&
 				contactFormState === "idle"
 			) {
-				handleContactFormSubmit();
+				console.log("ctr");
+				(() => handleSubmit(handleContactFormSubmit))();
 			}
 		};
 
@@ -43,7 +55,9 @@ export const MorphContactForm: FC<MorphContactForm> = ({ Trigger }) => {
 		return () => window.removeEventListener("keydown", handleKeyDown);
 	}, [openContactForm, contactFormState]);
 
-	const handleContactFormSubmit = () => {
+	const handleContactFormSubmit = (data) => {
+		console.log(data);
+
 		setContactFormState("loading");
 
 		setTimeout(() => {
@@ -53,6 +67,11 @@ export const MorphContactForm: FC<MorphContactForm> = ({ Trigger }) => {
 		setTimeout(() => {
 			setOpenContactForm(false);
 		}, 3300);
+	};
+
+	const inputAnimationVariants = {
+		valid: { borderColor: "#e6e7e8", backgroundColor: "#ffffff" },
+		invalid: { borderColor: "#f44336", backgroundColor: "#ffebee" }
 	};
 
 	const renderSuccessSection = () => (
@@ -129,6 +148,7 @@ export const MorphContactForm: FC<MorphContactForm> = ({ Trigger }) => {
 			transition={{ delay: 0.65, type: "spring", duration: 0.4, bounce: 0 }}
 			type="submit"
 			className="bg-button-gradient ml-auto flex items-center justify-center rounded-[6rem] font-bold text-[12rem] h-[24rem] w-[104rem] overflow-hidden shadow-lg relative"
+			onClick={() => console.log("click")}
 		>
 			<AnimatePresence mode="popLayout" initial={false}>
 				<motion.span
@@ -159,11 +179,7 @@ export const MorphContactForm: FC<MorphContactForm> = ({ Trigger }) => {
 			exit={{ y: 8, opacity: 0, filter: "blur(4rem)" }}
 			transition={{ type: "spring", duration: 0.4, bounce: 0 }}
 			key="form"
-			onSubmit={(e) => {
-				e.preventDefault();
-				if (!feedback) return;
-				handleContactFormSubmit();
-			}}
+			onSubmit={handleSubmit(handleContactFormSubmit)}
 			className="rounded-[8rem]"
 		>
 			<motion.div
@@ -174,12 +190,19 @@ export const MorphContactForm: FC<MorphContactForm> = ({ Trigger }) => {
 				<label className="visually-hidden" htmlFor="name">
 					Your name
 				</label>
-				<input
+				<motion.input
+					variants={inputAnimationVariants}
+					animate={errors.name ? "invalid" : "valid"}
+					transition={{
+						type: "spring",
+						duration: 0.4,
+						bounce: 0
+					}}
 					id="name"
-					name="name"
-					className="mb-[5rem] border-[1rem] border-solid border-[#e6e7e8] bg-[white] w-full h-[42rem] rounded-[8rem] p-[12rem] text-[14rem] outline-none"
+					className="mb-[5rem] border-[1rem] border-solid w-full h-[42rem] rounded-[8rem] p-[12rem] text-[14rem] outline-none"
 					type="text"
 					placeholder="Name"
+					{...register("name")}
 				/>
 			</motion.div>
 			<motion.div
@@ -190,12 +213,19 @@ export const MorphContactForm: FC<MorphContactForm> = ({ Trigger }) => {
 				<label className="visually-hidden" htmlFor="email">
 					Your email address
 				</label>
-				<input
+				<motion.input
+					variants={inputAnimationVariants}
+					animate={errors.email ? "invalid" : "valid"}
+					transition={{
+						type: "spring",
+						duration: 0.4,
+						bounce: 0
+					}}
 					id="email"
-					name="email"
 					className="mb-[5rem] border-[1rem] border-solid border-[#e6e7e8] bg-[white] w-full h-[42rem] rounded-[8rem] p-[12rem] text-[14rem] outline-none"
 					type="email"
 					placeholder="Email"
+					{...register("email")}
 				/>
 			</motion.div>
 			<motion.div
@@ -206,13 +236,18 @@ export const MorphContactForm: FC<MorphContactForm> = ({ Trigger }) => {
 				<label className="visually-hidden" htmlFor="message">
 					Your message
 				</label>
-				<textarea
+				<motion.textarea
+					variants={inputAnimationVariants}
+					animate={errors.message ? "invalid" : "valid"}
+					transition={{
+						type: "spring",
+						duration: 0.4,
+						bounce: 0
+					}}
 					id="message"
-					name="message"
 					placeholder="Message"
-					onChange={(e) => setFeedback(e.target.value)}
 					className="border-[1rem] border-solid border-[#e6e7e8] bg-[white] w-full h-[126rem] resize-none rounded-[8rem] p-[12rem] text-[14rem] outline-none"
-					required
+					{...register("message")}
 				/>
 			</motion.div>
 			<div className="absolute bottom-[12rem] right-[12rem]">
@@ -228,7 +263,6 @@ export const MorphContactForm: FC<MorphContactForm> = ({ Trigger }) => {
 				onClick={() => {
 					setOpenContactForm(true);
 					setContactFormState("idle");
-					setFeedback("");
 				}}
 				key="button"
 			>
