@@ -1,10 +1,12 @@
 "use client";
 
 import { type ElementType, type FC, type RefObject, useEffect, useRef, useState } from "react";
-import { AnimatePresence, motion, type Variants } from "motion/react";
+import { AnimatePresence, motion } from "motion/react";
 import { useOnClickOutside } from "usehooks-ts";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+
+import { Input } from "@shared/ui/input";
 
 import { contactFormSchema } from "../model";
 
@@ -32,11 +34,6 @@ export const MorphContactForm: FC<MorphContactForm> = ({ Trigger }) => {
 	});
 
 	const contactFormContainerRef = useRef<HTMLDivElement | null>(null);
-
-	const inputAnimationVariants: Variants = {
-		valid: { borderColor: "#e6e7e8", backgroundColor: "#ffffff" },
-		invalid: { borderColor: "#f44336", backgroundColor: "#ffebee" }
-	};
 
 	useOnClickOutside(contactFormContainerRef as RefObject<HTMLElement>, () =>
 		setOpenContactForm(false)
@@ -85,74 +82,33 @@ export const MorphContactForm: FC<MorphContactForm> = ({ Trigger }) => {
 			onSubmit={handleSubmit(handleContactFormSubmit)}
 			className="rounded-[8rem]"
 		>
-			<motion.div
-				initial={{ opacity: 0, y: -5, scale: 0.8 }}
-				animate={{ opacity: 1, y: 0, scale: 1 }}
-				transition={{ delay: 0.25, type: "spring", duration: 0.4, bounce: 0 }}
-			>
-				<label className="visually-hidden" htmlFor="name">
-					Your name
-				</label>
-				<motion.input
-					variants={inputAnimationVariants}
-					animate={errors.name ? "invalid" : "valid"}
-					transition={{
-						type: "spring",
-						duration: 0.4,
-						bounce: 0
-					}}
-					id="name"
-					className="mb-[5rem] border-[1rem] border-solid w-full h-[42rem] rounded-[8rem] p-[12rem] text-[14rem] outline-none"
-					type="text"
-					placeholder="Name"
-					{...register("name")}
-				/>
-			</motion.div>
-			<motion.div
-				initial={{ opacity: 0, y: -5, scale: 0.8 }}
-				animate={{ opacity: 1, y: 0, scale: 1 }}
-				transition={{ delay: 0.3, type: "spring", duration: 0.4, bounce: 0 }}
-			>
-				<label className="visually-hidden" htmlFor="email">
-					Your email address
-				</label>
-				<motion.input
-					variants={inputAnimationVariants}
-					animate={errors.email ? "invalid" : "valid"}
-					transition={{
-						type: "spring",
-						duration: 0.4,
-						bounce: 0
-					}}
-					id="email"
-					className="mb-[5rem] border-[1rem] border-solid border-[#e6e7e8] bg-[white] w-full h-[42rem] rounded-[8rem] p-[12rem] text-[14rem] outline-none"
-					type="email"
-					placeholder="Email"
-					{...register("email")}
-				/>
-			</motion.div>
-			<motion.div
-				initial={{ opacity: 0, y: -5, scale: 0.8 }}
-				animate={{ opacity: 1, y: 0, scale: 1 }}
-				transition={{ delay: 0.35, type: "spring", duration: 0.4, bounce: 0 }}
-			>
-				<label className="visually-hidden" htmlFor="message">
-					Your message
-				</label>
-				<motion.textarea
-					variants={inputAnimationVariants}
-					animate={errors.message ? "invalid" : "valid"}
-					transition={{
-						type: "spring",
-						duration: 0.4,
-						bounce: 0
-					}}
-					id="message"
-					placeholder="Message"
-					className="border-[1rem] border-solid border-[#e6e7e8] bg-[white] w-full h-[126rem] resize-none rounded-[8rem] p-[12rem] text-[14rem] outline-none"
-					{...register("message")}
-				/>
-			</motion.div>
+			<Input
+				type="text"
+				label="Your name"
+				htmlFor="name"
+				id="name"
+				placeholder="Name"
+				error={!!errors.name}
+				{...register("name")}
+			/>
+			<Input
+				type="email"
+				label="Your email address"
+				htmlFor="email"
+				id="email"
+				placeholder="Email"
+				error={!!errors.email}
+				{...register("email")}
+			/>
+			<Input
+				type="textarea"
+				label="Your message"
+				htmlFor="message"
+				id="message"
+				placeholder="Message"
+				error={!!errors.message}
+				{...register("message")}
+			/>
 			<div className="absolute bottom-[12rem] right-[12rem]">
 				<ContactFormSubmitButton contactFormState={contactFormState} />
 			</div>
