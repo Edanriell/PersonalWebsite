@@ -8,10 +8,7 @@ type ContactFormSubmitButtonProps = {
 };
 
 export const ContactFormSubmitButton: FC<ContactFormSubmitButtonProps> = ({ contactFormState }) => (
-	<motion.button
-		initial={{ opacity: 0, x: -10 }}
-		animate={{ opacity: 1, x: 0 }}
-		transition={{ delay: 0.65, type: "spring", duration: 0.4, bounce: 0 }}
+	<button
 		type="submit"
 		className="bg-button-gradient ml-auto flex items-center justify-center rounded-[6rem] font-bold text-[12rem] h-[24rem] w-[104rem] overflow-hidden shadow-lg relative"
 	>
@@ -36,5 +33,5 @@ export const ContactFormSubmitButton: FC<ContactFormSubmitButtonProps> = ({ cont
 				)}
 			</motion.span>
 		</AnimatePresence>
-	</motion.button>
+	</button>
 );

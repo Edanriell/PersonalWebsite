@@ -47,7 +47,7 @@ export const MorphTitle: FC<MorphTitleProps> = ({ to, children, ...rest }) => {
 						animate={{ y: 0, opacity: 1 }}
 						exit={{ y: index % 2 === 0 ? -20 : 20, opacity: 0 }}
 						transition={{
-							duration: 0.5,
+							duration: 0.55,
 							type: "spring",
 							bounce: 0
 						}}
