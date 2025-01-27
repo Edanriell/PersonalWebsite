@@ -28,11 +28,7 @@ export const Input: FC<InputProps> = ({
 	switch (type) {
 		case "text":
 			return (
-				<motion.div
-					initial={{ opacity: 0, y: -5, scale: 0.8 }}
-					animate={{ opacity: 1, y: 0, scale: 1 }}
-					transition={{ delay: 0.25, type: "spring", duration: 0.4, bounce: 0 }}
-				>
+				<div>
 					<label className="visually-hidden" htmlFor={htmlFor}>
 						{label}
 					</label>
@@ -45,20 +41,16 @@ export const Input: FC<InputProps> = ({
 							bounce: 0
 						}}
 						id={id}
-						className="mb-[5rem] border-[1rem] border-solid w-full h-[42rem] rounded-[8rem] p-[12rem] text-[14rem] outline-none"
+						className="mb-[5rem] border-[1rem] border-solid border-[#e6e7e8] bg-[white] w-full h-[42rem] rounded-[8rem] p-[12rem] text-[14rem] outline-none"
 						type="text"
 						placeholder={placeholder}
 						{...(rest as ComponentPropsWithoutRef<"input"> & MotionProps)}
 					/>
-				</motion.div>
+				</div>
 			);
 		case "email":
 			return (
-				<motion.div
-					initial={{ opacity: 0, y: -5, scale: 0.8 }}
-					animate={{ opacity: 1, y: 0, scale: 1 }}
-					transition={{ delay: 0.3, type: "spring", duration: 0.4, bounce: 0 }}
-				>
+				<div>
 					<label className="visually-hidden" htmlFor={htmlFor}>
 						{label}
 					</label>
@@ -76,15 +68,11 @@ export const Input: FC<InputProps> = ({
 						placeholder={placeholder}
 						{...(rest as ComponentPropsWithoutRef<"input"> & MotionProps)}
 					/>
-				</motion.div>
+				</div>
 			);
 		case "textarea":
 			return (
-				<motion.div
-					initial={{ opacity: 0, y: -5, scale: 0.8 }}
-					animate={{ opacity: 1, y: 0, scale: 1 }}
-					transition={{ delay: 0.35, type: "spring", duration: 0.4, bounce: 0 }}
-				>
+				<div>
 					<label className="visually-hidden" htmlFor={htmlFor}>
 						{label}
 					</label>
@@ -101,7 +89,7 @@ export const Input: FC<InputProps> = ({
 						className="border-[1rem] border-solid border-[#e6e7e8] bg-[white] w-full h-[126rem] resize-none rounded-[8rem] p-[12rem] text-[14rem] outline-none"
 						{...(rest as ComponentPropsWithoutRef<"textarea"> & MotionProps)}
 					/>
-				</motion.div>
+				</div>
 			);
 		default:
 			return null;
