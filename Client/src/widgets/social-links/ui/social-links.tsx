@@ -11,6 +11,13 @@ const socialLinks = new Map([
 		}
 	],
 	[
+		"https://bsky.app/profile/edanriell.bsky.social",
+		{
+			iconType: "blueSky",
+			text: "Link to Edanriell's BlueSky profile"
+		}
+	],
+	[
 		"https://x.com/Edanriell",
 		{
 			iconType: "x",
