@@ -41,5 +41,10 @@ type IconProps = {
 
 export const Icon: FC<IconProps> = ({ type }) => {
 	const Icon = iconVariants[type];
-	return <Fragment>{Icon()}</Fragment>;
+
+	return (
+		<Fragment>
+			<Icon />
+		</Fragment>
+	);
 };
