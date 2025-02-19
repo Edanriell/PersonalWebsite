@@ -132,6 +132,7 @@ export const MorphContactForm: FC<MorphContactForm> = ({ Trigger }) => {
 			<AnimatePresence>
 				{openContactForm ? (
 					<motion.div
+						transition={{ type: "spring", duration: 0.65, bounce: 0.25 }}
 						layoutId="wrapper"
 						className="absolute h-[232rem] w-[364rem] overflow-hidden rounded-[12rem] bg-[#f5f6f7] p-[6rem] outline-none"
 						ref={contactFormContainerRef}
